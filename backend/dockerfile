@@ -1,18 +1,24 @@
-# Use OpenJDK for Java backend
-FROM openjdk:17-jdk-slim
+# Stage 1: Build
+FROM maven:3.9.3-eclipse-temurin-17 AS builder
 
 WORKDIR /app
 
-# Copy Maven/Gradle wrapper and project files
-COPY pom.xml ./
+# Copy pom.xml first for dependency caching
+COPY pom.xml .
 COPY src ./src
 
-# Build project (Maven)
-RUN apt-get update && apt-get install -y maven \
-    && mvn clean package -DskipTests
+# Build the project (skip tests for faster builds)
+RUN mvn clean package -DskipTests
 
-# Expose port
+# Stage 2: Runtime
+FROM eclipse-temurin:17-jre
+
+WORKDIR /app
+
+# Copy the built JAR from the builder stage
+COPY --from=builder /app/target/*.jar app.jar
+
 EXPOSE 8080
 
 # Run the app
-CMD ["java", "-jar", "target/firewatch-backend.jar"]
+CMD ["java", "-jar", "app.jar"]
