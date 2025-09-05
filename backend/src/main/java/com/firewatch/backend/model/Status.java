@@ -1,7 +1,6 @@
 package com.firewatch.backend.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "incident_status")
@@ -20,20 +19,18 @@ public class Status {
     @JoinColumn(name = "incident_id", nullable = false)
     private Incident incident;
 
-    private LocalDateTime createdAt;
+    private Long createdAt;
     // Constructors
     public Status() {
-        this.createdAt = LocalDateTime.now();
     }
 
-    public Status(String status, Integer dispatchedVehicles, Integer dispatchedAerials, Integer dispatchedPersonnel) {
+    public Status(String status, Long createAt, Integer dispatchedVehicles, Integer dispatchedAerials, Integer dispatchedPersonnel, Incident incident) {
         this.status = status;
-
-        this.dispatchedAerials = dispatchedAerials != null ? this.dispatchedAerials : 0;
-        this.dispatchedVehicles = dispatchedVehicles != null ? this.dispatchedVehicles : 0;
-        this.dispatchedPersonnel = dispatchedPersonnel != null ? this.dispatchedPersonnel : 0;
-
-        this.createdAt = LocalDateTime.now();
+        this.dispatchedAerials = dispatchedAerials != null ? dispatchedAerials : 0;
+        this.dispatchedVehicles = dispatchedVehicles != null ? dispatchedVehicles : 0;
+        this.dispatchedPersonnel = dispatchedPersonnel != null ? dispatchedPersonnel : 0;
+        this.createdAt = createAt;
+        this.incident = incident;
     }
 
     // Getters and Setters
@@ -44,8 +41,6 @@ public class Status {
     public void setIncident(Incident incident) {
         this.incident = incident;
     }
-
-
 
     public String getId() {
         return id;
@@ -83,7 +78,15 @@ public class Status {
         this.dispatchedPersonnel = dispatchedPersonnel;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Long getCreatedAt() {
         return createdAt;
+    }
+
+    public void setCreatedAt(Long createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

@@ -2,7 +2,7 @@ package com.firewatch.backend.model;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,9 +18,16 @@ public class Incident {
 
     private String title;
     private String district;
+    private String concelho;
+    private String freguesia;
+    private String regiao;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private String date;
+    private String hour;
+
+    private Long createdAt;
+    private Long updatedAt;
+
 
     @OneToMany(mappedBy = "incident", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Status> status;
@@ -28,18 +35,20 @@ public class Incident {
     private String telegramMessageId;
 
     public Incident() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
     }
 
-    public Incident(String id, String proCivId, String title, String district, String telegramMessageId) {
-        this.id = id;
+    public Incident(String proCivId, String title, String district, String concelho, String freguesia, String regiao, String date, String hour, Long createdAt, Long updatedAt, String telegramMessageId) {
         this.proCivId = proCivId;
         this.title = title;
         this.district = district;
+        this.concelho = concelho;
+        this.freguesia = freguesia;
+        this.regiao = regiao;
+        this.date = date;
+        this.hour = hour;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
         this.telegramMessageId = telegramMessageId;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
     }
 
     public String getId() {
@@ -74,19 +83,19 @@ public class Incident {
         this.district = district;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Long getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(Long createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public Long getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(Long updatedAt) {
         this.updatedAt = updatedAt;
     }
 
@@ -104,5 +113,45 @@ public class Incident {
 
     public void setTelegramMessageId(String telegramMessageId) {
         this.telegramMessageId = telegramMessageId;
+    }
+
+    public String getConcelho() {
+        return concelho;
+    }
+
+    public void setConcelho(String concelho) {
+        this.concelho = concelho;
+    }
+
+    public String getFreguesia() {
+        return freguesia;
+    }
+
+    public void setFreguesia(String freguesia) {
+        this.freguesia = freguesia;
+    }
+
+    public String getRegiao() {
+        return regiao;
+    }
+
+    public void setRegiao(String regiao) {
+        this.regiao = regiao;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getHour() {
+        return hour;
+    }
+
+    public void setHour(String hour) {
+        this.hour = hour;
     }
 }
